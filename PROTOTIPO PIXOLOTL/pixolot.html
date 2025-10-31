@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Pixolot — Indie Games Showcase</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="container header">
+    <div class="brand">
+      <!-- LOGO PNG -->
+      <img id="brandImg" src="PIXOLOTEL.png" alt="Logo Pixolot" class="brand-logo" data-initials="PX" onerror="this.style.display='none'">
+      <span id="brandFallback" class="logo" aria-hidden="true" style="display:none">PX</span>
+
+      <div>
+        <div class="site-title">Pyxolotl</div>
+        <div style="font-size:12px;color:var(--muted)">Indie developers showcase</div>
+      </div>
+    </div>
+
+    <nav class="nav">
+      <a href="#features">Características</a>
+      <a href="#gallery">Juegos</a>
+      <a href="#about">Acerca</a>
+      <a class="cta" href="#contact">Presentar juego</a>
+      <!-- NUEVO BOTÓN DE INICIO DE SESIÓN -->
+      <a class="btn btn-ghost" href="inicio.html">Iniciar sesión</a>
+    </nav>
+
+    <button id="menuBtn" class="btn btn-ghost" aria-label="menu">☰</button>
+  </header>
+
+  <main class="container">
+    <section class="hero fade-in">
+      <div class="hero-left">
+        <span class="kicker">Beta · Pixolot</span>
+        <h1>Más visibilidad para desarrolladores indie</h1>
+        <p>Pixolot es una vitrina pensada para creadores de videojuegos independientes. Subí tu proyecto, consigue feedback y llega a jugadores.</p>
+
+        <div class="hero-cta">
+          <a class="btn" href="#gallery" style="background:linear-gradient(90deg,var(--accent-2),var(--accent-1));color:#07102a">Explorar juegos</a>
+          <a class="btn btn-ghost" href="#contact">Presentar tu juego</a>
+        </div>
+      </div>
+
+      <div style="flex:1">
+        <div style="background:linear-gradient(135deg,var(--accent-1),var(--accent-2));padding:18px;border-radius:16px">
+          <div style="color:#07102a;font-weight:700">Destacado</div>
+          <div style="height:220px;margin-top:12px;border-radius:10px;background:linear-gradient(180deg,rgba(255,255,255,0.07), rgba(255,255,255,0.02));display:flex;align-items:center;justify-content:center">Imagen del juego o demo</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="features" class="features">
+      <div class="feature">
+        <h4>Visibilidad</h4>
+        <p>Conecta con jugadores y otros desarrolladores. Promociona tus builds y demos.</p>
+      </div>
+      <div class="feature">
+        <h4>Feedback</h4>
+        <p>Recibe comentarios constructivos y métricas para mejorar tu juego.</p>
+      </div>
+      <div class="feature">
+        <h4>Colaboraciones</h4>
+        <p>Encuentra artistas, músicos y programadores interesados en colaborar.</p>
+      </div>
+    </section>
+
+    <section id="gallery">
+      <h2 style="margin-top:0">Juegos recientes</h2>
+      <div class="grid">
+        <article class="card" data-title="Nebula Runner" data-desc="Un endless runner espacial con estética retro y música synthwave.">
+          <div class="thumb">NR</div>
+          <h3>Nebula Runner</h3>
+          <p>Endless runner · 2025 · Pixel art</p>
+        </article>
+
+        <article class="card" data-title="Echoes" data-desc="Aventura narrativa con puzles sonoros y ambientes inmersivos.">
+          <div class="thumb">E</div>
+          <h3>Echoes</h3>
+          <p>Aventura · 2024 · Puzzle/Audio</p>
+        </article>
+
+        <article class="card" data-title="Moss & Code" data-desc="Plataformas y rompecabezas donde la biología y la programación se combinan.">
+          <div class="thumb">M</div>
+          <h3>Moss & Code</h3>
+          <p>Plataformas · 2025 · Indie</p>
+        </article>
+
+        <article class="card" data-title="Starbound Chef" data-desc="Juego de cocina en estaciones espaciales con física divertida.">
+          <div class="thumb">SC</div>
+          <h3>Starbound Chef</h3>
+          <p>Sim · 2023 · Multijugador</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="about" style="margin-top:28px">
+      <h2>Acerca de Pixolot</h2>
+      <p style="color:var(--muted)">Pixolot es una iniciativa estudiantil para ayudar a desarrolladores indie a obtener exposición. Este prototipo es sólo la parte frontal — la idea es integrar un panel para subir builds, moderación y herramientas de analítica.</p>
+    </section>
+
+    <footer class="footer">
+      <div class="container center" style="flex-direction:column;gap:10px">
+        <div style="width:100%;display:flex;justify-content:space-between;align-items:center;max-width:var(--max-width)">
+          <div>© 2025 Pixolot · Hecho con ♥ para desarrolladores indie</div>
+          <div style="color:var(--muted)">Contacto: pixolot@example.com</div>
+        </div>
+      </div>
+    </footer>
+  </main>
+
+  <div id="previewModal" class="modal">
+    <div class="panel">
+      <button class="close" style="float:right;background:transparent;border:none;color:var(--muted);font-size:18px">✕</button>
+      <h3></h3>
+      <p></p>
+      <div style="margin-top:12px;display:flex;gap:8px">
+        <button class="btn" style="background:linear-gradient(90deg,var(--accent-2),var(--accent-1));color:#07102a">Ver demo</button>
+        <button class="btn btn-ghost">Compartir</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="main.js"></script>
+</body>
+</html>
