@@ -1,60 +1,165 @@
-// Pixolot - main.js
-// Interactividad mínima: mobile menu toggle, abrir modal de juego
+// ============================================
+// PIXOLOT - main.js
+// Sistema principal de interactividad
+// ============================================
 
-document.addEventListener('DOMContentLoaded', ()=>{
-    // Ensure brand image fallback: if image missing or fails, show gradient initials
-    const brandImg = document.getElementById('brandImg');
-    const brandFallback = document.getElementById('brandFallback');
-    if(brandImg){
-        // if image already failed to load (onerror in markup hides it), show fallback
-        brandImg.addEventListener('error', ()=>{
-            if(brandFallback){
-                brandFallback.textContent = brandImg.dataset.initials || 'PX';
-                brandFallback.style.display = 'inline-flex';
-                brandImg.style.display = 'none';
-            }
-        });
-        // if image loads successfully, hide fallback
-        brandImg.addEventListener('load', ()=>{
-            if(brandFallback) brandFallback.style.display = 'none';
-        });
+console.log('⚡ Main.js cargado');
 
-        // If the image element is present but has no src or is empty, trigger fallback immediately
-        if(!brandImg.getAttribute('src')){
-            brandImg.dispatchEvent(new Event('error'));
-        }
-    } else if(brandFallback){
+document.addEventListener('DOMContentLoaded', () => {
+  console.log('🚀 DOM cargado, inicializando Pixolot...');
+  
+  // ============================================
+  // LOGO FALLBACK
+  // ============================================
+  const brandImg = document.getElementById('brandImg');
+  const brandFallback = document.getElementById('brandFallback');
+  
+  if (brandImg) {
+    brandImg.addEventListener('error', () => {
+      console.log('⚠️ Imagen del logo no encontrada, usando fallback');
+      if (brandFallback) {
+        brandFallback.textContent = brandImg.dataset.initials || 'PX';
         brandFallback.style.display = 'inline-flex';
-    }
-    const menuBtn = document.getElementById('menuBtn');
-    const nav = document.querySelector('.nav');
-    if(menuBtn){
-        menuBtn.addEventListener('click', ()=>{
-            nav.classList.toggle('open');
-            menuBtn.classList.toggle('open');
-        });
-    }
-
-    // Abrir preview modal
-    document.querySelectorAll('.card').forEach(card=>{
-        card.addEventListener('click', ()=>{
-            const modal = document.getElementById('previewModal');
-            const title = card.dataset.title || card.querySelector('h3')?.textContent || 'Juego';
-            const desc = card.dataset.desc || card.querySelector('p')?.textContent || '';
-            modal.querySelector('.panel h3').textContent = title;
-            modal.querySelector('.panel p').textContent = desc;
-            modal.classList.add('show');
-        });
+        brandImg.style.display = 'none';
+      }
     });
-
-    document.querySelectorAll('.modal .close, .modal').forEach(el=>{
-        el.addEventListener('click', (e)=>{
-            const modal = document.getElementById('previewModal');
-            // cerrar si se clica fuera del panel o en close
-            if(e.target.classList.contains('modal') || e.target.classList.contains('close')){
-                modal.classList.remove('show');
-            }
-        })
-    })
-
+    
+    brandImg.addEventListener('load', () => {
+      if (brandFallback) brandFallback.style.display = 'none';
+    });
+    
+    if (!brandImg.getAttribute('src')) {
+      brandImg.dispatchEvent(new Event('error'));
+    }
+  } else if (brandFallback) {
+    brandFallback.style.display = 'inline-flex';
+  }
+  
+  // ============================================
+  // MENÚ MÓVIL
+  // ============================================
+  const menuBtn = document.getElementById('menuBtn');
+  const nav = document.querySelector('.nav');
+  
+  if (menuBtn && nav) {
+    menuBtn.addEventListener('click', () => {
+      nav.classList.toggle('open');
+      menuBtn.classList.toggle('open');
+      console.log('📱 Menú móvil toggled');
+    });
+  }
+  
+  // ============================================
+  // CARRITO - BOTÓN ABRIR
+  // ============================================
+  const cartBtn = document.getElementById('cartBtn');
+  if (cartBtn) {
+    cartBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      console.log('🛒 Abriendo carrito...');
+      openCartModal();
+    });
+  }
+  
+  // ============================================
+  // BOTONES "AGREGAR AL CARRITO"
+  // ============================================
+  const addToCartButtons = document.querySelectorAll('.add-to-cart');
+  console.log(`🔘 Botones "Agregar" encontrados: ${addToCartButtons.length}`);
+  
+  addToCartButtons.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      e.preventDefault();
+      const gameId = btn.dataset.id;
+      console.log(`➕ Agregando juego ID: ${gameId}`);
+      addToCart(gameId);
+    });
+  });
+  
+  // ============================================
+  // BOTÓN "JUGAR SNAKE"
+  // ============================================
+  const playSnakeButtons = document.querySelectorAll('.play-snake-btn');
+  console.log(`🎮 Botones "Jugar Snake" encontrados: ${playSnakeButtons.length}`);
+  
+  playSnakeButtons.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      e.preventDefault();
+      console.log('🐍 Abriendo Snake Game...');
+      openSnakeGame();
+    });
+  });
+  
+  // ============================================
+  // CARDS - IR A DETALLE (solo juegos de pago)
+  // ============================================
+  document.querySelectorAll('.card:not(.free-game)').forEach(card => {
+    card.style.cursor = 'pointer';
+    card.addEventListener('click', (e) => {
+      // No redirigir si se clickeó un botón
+      if (e.target.closest('button') || e.target.closest('.btn')) {
+        return;
+      }
+      
+      const gameId = card.dataset.id;
+      if (gameId) {
+        console.log(`🎯 Ir a detalle del juego: ${gameId}`);
+        window.location.href = `producto-detalle.html?id=${gameId}`;
+      }
+    });
+  });
+  
+  // ============================================
+  // MODAL CARRITO - CERRAR
+  // ============================================
+  const closeCartBtn = document.querySelector('.close-cart');
+  if (closeCartBtn) {
+    closeCartBtn.addEventListener('click', closeCartModal);
+  }
+  
+  const cartModal = document.getElementById('cartModal');
+  if (cartModal) {
+    cartModal.addEventListener('click', (e) => {
+      if (e.target === cartModal) {
+        closeCartModal();
+      }
+    });
+  }
+  
+  // ============================================
+  // MODAL SNAKE - CERRAR
+  // ============================================
+  const closeSnakeBtn = document.querySelector('.close-snake');
+  if (closeSnakeBtn) {
+    closeSnakeBtn.addEventListener('click', closeSnakeGame);
+  }
+  
+  const snakeModal = document.getElementById('snakeModal');
+  if (snakeModal) {
+    snakeModal.addEventListener('click', (e) => {
+      if (e.target === snakeModal) {
+        closeSnakeGame();
+      }
+    });
+  }
+  
+  // ============================================
+  // BOTÓN CHECKOUT
+  // ============================================
+  const checkoutBtn = document.getElementById('checkoutBtn');
+  if (checkoutBtn) {
+    checkoutBtn.addEventListener('click', proceedToCheckout);
+  }
+  
+  // ============================================
+  // ACTUALIZAR CONTADOR INICIAL
+  // ============================================
+  if (typeof updateCartCount === 'function') {
+    updateCartCount();
+    console.log('✅ Contador del carrito actualizado');
+  }
+  
+  console.log('✨ Pixolot inicializado correctamente');
 });
